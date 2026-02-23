@@ -4,7 +4,7 @@ from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_groq import ChatGroq  
 from langchain_core.documents import Document
 from helpers.xmlParser import extract_texts_from_xml
-from helpers.visualization.graphs import visualize_knowledge_graph
+from helpers.visualization.plot_graphs import visualize_knowledge_graph
 import random
 
 load_dotenv()
@@ -19,7 +19,7 @@ llm_transformer = LLMGraphTransformer(
     llm=llm
 )
 
-xml_file_path = "./data/webnlg.xml"
+xml_file_path = "./data/testdata_with_lex.xml"
 dataset = extract_texts_from_xml(xml_file_path)
 
 documents = [Document(page_content=text) for text in dataset]
