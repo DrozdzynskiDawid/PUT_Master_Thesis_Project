@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import xgi
 import numpy as np
 
+from helpers.transformation import visualize_transformations
+
 def visualize_knowledge_hypergraph(result):
     if not result.nodes and not result.hyperedges:
         print("Brak danych do narysowania hipergrafu.")
@@ -53,3 +55,4 @@ def visualize_knowledge_hypergraph(result):
     plt.axis('off')
     plt.tight_layout()
     plt.show()
+    visualize_transformations(H)
