@@ -3,9 +3,8 @@ import random
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from helpers.visualization.plot_hypergraphs import visualize_knowledge_hypergraph
 from helpers.xmlParser import extract_texts_from_xml
-from helpers.hypergraph_model import HyperGraphData
+from langchain.hypergraph_model import HyperGraphData
 
 def generate_hypergraph_from_text():
     load_dotenv()
@@ -42,5 +41,4 @@ def generate_hypergraph_from_text():
         for edge in result.hyperedges:
             print(f"Relacja: {edge.relation_name}")
             print(f"Połączone byty: {', '.join(edge.connected_nodes)}")
-        # visualize_knowledge_hypergraph(result)
         return result

@@ -45,8 +45,6 @@ def generate_graph_from_text():
                     print(f"  {rel.source.id} --[{rel.type}]--> {rel.target.id}")
                 
                 return graph_doc
-                # VISUALIZATION
-                # visualize_knowledge_graph(graph_doc, i)
             else:
                 print("Nie znaleziono relacji lub węzłów w tym zdaniu.")
             print("-" * 50)

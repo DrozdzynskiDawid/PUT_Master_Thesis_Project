@@ -1,8 +1,9 @@
+import io
 import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-def visualize_knowledge_graph(graph_doc, sentence_index):
+def visualize_knowledge_graph(graph_doc):
     if not graph_doc.nodes and not graph_doc.relationships:
         print("Brak danych do narysowania grafu.")
         return
@@ -15,7 +16,7 @@ def visualize_knowledge_graph(graph_doc, sentence_index):
     for rel in graph_doc.relationships:
         G.add_edge(rel.source.id, rel.target.id, label=rel.type)
 
-    plt.figure(figsize=(10, 8))
+    fig = plt.figure(figsize=(10, 8))
     pos = nx.spring_layout(G, seed=42, k=2.0) 
     unique_types = list(set(node_types.values()))
     cmap = plt.get_cmap('tab10')
@@ -42,7 +43,13 @@ def visualize_knowledge_graph(graph_doc, sentence_index):
     ]
     plt.legend(handles=legend_elements, title="Typy węzłów", loc="best", fontsize=10, title_fontsize=11)
 
-    plt.title(f"Graf wiedzy z tekstu #{sentence_index + 1}", fontsize=14, pad=20)
+    plt.title("Graf wiedzy", fontsize=14, pad=20)
     plt.axis('off')
     plt.tight_layout()
-    plt.show()
+    
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    plt.close(fig)
+    buf.seek(0)
+    
+    return buf.getvalue()

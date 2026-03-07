@@ -1,25 +1,26 @@
 import matplotlib.pyplot as plt
+import io
 import xgi
 import numpy as np
 
 from helpers.transformation import visualize_transformations
 
-def visualize_knowledge_hypergraph(result):
-    if not result.nodes and not result.hyperedges:
+def visualize_knowledge_hypergraph(json_data):
+    if not json_data.nodes and not json_data.hyperedges:
         print("Brak danych do narysowania hipergrafu.")
         return
 
     H = xgi.Hypergraph()
 
-    for node in result.nodes:
+    for node in json_data.nodes:
         H.add_node(node.id, type=node.type)
 
-    for edge in result.hyperedges:
+    for edge in json_data.hyperedges:
         valid_nodes = [n for n in edge.connected_nodes if n in H.nodes]
         if valid_nodes:
             H.add_edge(valid_nodes, relation=edge.relation_name)
             
-    plt.figure(figsize=(10, 8), dpi=100)
+    fig = plt.figure(figsize=(10, 8), dpi=100)
     pos = xgi.barycenter_spring_layout(H)
 
     xgi.draw(
@@ -54,5 +55,10 @@ def visualize_knowledge_hypergraph(result):
     plt.title("Wizualizacja Hipergrafu Wiedzy", fontsize=16, fontweight='bold', pad=15)
     plt.axis('off')
     plt.tight_layout()
-    plt.show()
-    visualize_transformations(H)
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    plt.close(fig)
+    buf.seek(0)
+    
+    return buf.getvalue()
