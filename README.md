@@ -2,12 +2,8 @@
 Master's Thesis Project
 
 ### Running the Project:
-1. Setup and activate virtual environment in tyhe project directory
+1. Run docker-compose:
 
-`python -m venv .venv`
+`docker compose up --build`
 
-`.venv\Scripts\Activate`
-
-2. Install required libraries:
-
-`pip install -r requirements.txt`
+2. Open `http://localhost:8000/docs` in your browser to open Swagger API Documentation

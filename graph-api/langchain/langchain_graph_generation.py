@@ -12,7 +12,7 @@ def generate_graph_from_text():
 
     llm = ChatGroq(
         temperature=0,
-        model_name="openai/gpt-oss-120b",
+        model_name=os.getenv("MODEL_NAME"),
         api_key=os.getenv("GROQ_API_KEY")
     )
 
