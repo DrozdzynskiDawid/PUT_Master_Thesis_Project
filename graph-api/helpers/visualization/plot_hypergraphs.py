@@ -3,8 +3,6 @@ import io
 import xgi
 import numpy as np
 
-from helpers.transformation import visualize_transformations
-
 def visualize_knowledge_hypergraph(json_data):
     if not json_data.nodes and not json_data.hyperedges:
         print("Brak danych do narysowania hipergrafu.")

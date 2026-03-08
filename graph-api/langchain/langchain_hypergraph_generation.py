@@ -3,7 +3,7 @@ import random
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from helpers.xmlParser import extract_texts_from_xml
+from helpers.xml_parser import extract_texts_from_xml
 from langchain.hypergraph_model import HyperGraphData
 
 def generate_hypergraph_from_text():

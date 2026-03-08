@@ -1,20 +1,25 @@
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field
+from typing import List, Dict, Any, Optional
 
-class Node(BaseModel):
-    id: Optional[str]
-    type: str
-    properties: Dict[str, Any] = {}
-    metadata: Optional[Dict[str, Any]] = None
-    page_content: Optional[str] = None
+class GraphNode(BaseModel):
+    id: Any
+    label: Optional[str] = None 
+    type: Optional[str] = None
+    extra: Dict[str, Any] = Field(default_factory=dict)
 
-class Relationship(BaseModel):
-    source: Node
-    target: Node
-    type: str
-    properties: Dict[str, Any] = {}
+    class Config:
+        extra = "allow"
 
-class GraphRequest(BaseModel):
-    nodes: List[Node]
-    relationships: List[Relationship]
-    source: Optional[Node] = None
+class GraphLink(BaseModel):
+    source: Any
+    target: Any
+    label: Optional[str] = None
+    class Config:
+        extra = "allow"
+
+class NodeLinkGraphModel(BaseModel):
+    directed: bool = True
+    multigraph: bool = False
+    graph: Dict[str, Any] = {}
+    nodes: List[GraphNode]
+    links: List[GraphLink]

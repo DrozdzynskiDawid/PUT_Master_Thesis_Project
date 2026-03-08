@@ -1,4 +1,5 @@
 version: '3.8'
+name: master_thesis_graphs_hypergraphs
 
 services:
   api:
