@@ -20,7 +20,7 @@ def transform_to_graph_clique(H):
                         if 'relation_name' in edge_attrs and 'label' not in G.edges[u, v]:
                             G.edges[u, v]['label'] = edge_attrs['relation_name']
 
-    return nx.node_link_data(G)
+    return nx.node_link_data(G, edges="links")
 
 # def transform_to_graph_bipartite(H):
     # G_bipartite = xgi.to_bipartite_graph(H)

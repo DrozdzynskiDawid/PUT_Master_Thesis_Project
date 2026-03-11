@@ -6,6 +6,7 @@ from helpers.visualization.plot_graphs import visualize_knowledge_graph
 from app.hypergraph_request_model import HypergraphRequest
 from app.graph_request_model import NodeLinkGraphModel
 from helpers.transformation import transform_to_graph_clique
+from helpers.get_stats import get_graph_stats
 import xgi
 
 app = FastAPI()
@@ -24,6 +25,10 @@ def get_graph_png(G: NodeLinkGraphModel):
     if png is None:
         return Response(content="Brak danych", status_code=400)
     return Response(content=png, media_type="image/png")
+
+@app.get("/api/graph/stats")
+def get_stats(data: NodeLinkGraphModel):
+    return get_graph_stats(data)
 
 @app.get("/api/hypergraph")
 def get_hypergraph():
