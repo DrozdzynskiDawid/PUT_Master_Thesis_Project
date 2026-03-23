@@ -6,6 +6,7 @@ from helpers.visualization.plot_graphs import visualize_knowledge_graph
 from app.hypergraph_request_model import HypergraphRequest
 from app.graph_request_model import NodeLinkGraphModel
 from helpers.transformation import transform_to_graph_clique
+from langchain.langchain_transformation import transform_to_graph_selected_clique
 from helpers.get_stats import get_graph_stats
 import xgi
 
@@ -41,7 +42,7 @@ def get_hypergraph_png(data: HypergraphRequest):
         return Response(content="Brak danych", status_code=400)
     return Response(content=png, media_type="image/png")
 
-@app.post("/api/hypergraph/transformation")
+@app.post("/api/hypergraph/transformation/clique")
 def transform_hypergraph_to_graph(data: HypergraphRequest):
     H = xgi.Hypergraph()
     for node in data.nodes:
@@ -54,3 +55,7 @@ def transform_hypergraph_to_graph(data: HypergraphRequest):
     if graph is None:
         return Response(content="Brak danych", status_code=400)
     return graph
+
+@app.post("/api/hypergraph/transformation/selected_clique")
+def transform_hypergraph_to_graph_llm(data: HypergraphRequest):
+    return transform_to_graph_selected_clique(data)

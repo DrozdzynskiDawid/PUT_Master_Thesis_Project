@@ -1,20 +1,12 @@
-import os
-from dotenv import load_dotenv
 from langchain_experimental.graph_transformers import LLMGraphTransformer
-from langchain_groq import ChatGroq  
 from langchain_core.documents import Document
 from helpers.xml_parser import get_random_sentence
+from helpers.get_llm import get_llm
 import random
 import networkx as nx
 
 def generate_graph_from_text():
-    load_dotenv()
-
-    llm = ChatGroq(
-        temperature=0,
-        model_name=os.getenv("MODEL_NAME"),
-        api_key=os.getenv("GROQ_API_KEY")
-    )
+    llm = get_llm()
 
     llm_transformer = LLMGraphTransformer(
         llm=llm
@@ -43,7 +35,7 @@ def generate_graph_from_text():
             for rel in graph_doc.relationships:
                 G.add_edge(rel.source.id, rel.target.id, relation=rel.type)
 
-            return nx.node_link_data(G)
+            return nx.node_link_data(G, edges="links")
         else:
             print("Nie znaleziono relacji lub węzłów w tym zdaniu.")
             
