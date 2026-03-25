@@ -1,0 +1,15 @@
+<div class="container">
+  <h2>Pobieranie Grafu</h2>
+  
+  <button matButton="filled" (click)="fetchData()" [disabled]="isLoading()">
+   {{ isLoading() ? 'Pobieranie...' : 'Pobierz dane z API' }}
+  </button>
+
+  <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
+
+  <div *ngIf="jsonData()" class="data-wrapper">
+    <h3>Dane wczytane pomyślnie!</h3>
+    <pre>{{ jsonData() | json }}</pre>
+    <img *ngIf="imageUrl()" [src]="imageUrl()" alt="Wygenerowany graf" style="max-width: 100%; height: auto; margin-top: 20px;">
+  </div>
+</div>

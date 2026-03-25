@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 from langchain.langchain_graph_generation import generate_graph_from_text
 from langchain.langchain_hypergraph_generation import generate_hypergraph_from_text
 from helpers.visualization.plot_hypergraphs import visualize_knowledge_hypergraph
@@ -11,6 +12,13 @@ from helpers.get_stats import get_graph_stats
 import xgi
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api")
 def hello():
