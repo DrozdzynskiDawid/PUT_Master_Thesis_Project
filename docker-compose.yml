@@ -14,3 +14,16 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+
+  frontend:
+      container_name: graph-frontend
+      image: node:20-alpine
+      working_dir: /app
+      ports:
+        - "4200:4200"
+      volumes:
+        - ./graph-app-frontend:/app
+        - /app/node_modules
+      command: sh -c "npm install && npx -p @angular/cli ng serve --host 0.0.0.0 --poll 2000"
+      environment:
+        - CHOKIDAR_USEPOLLING=true
