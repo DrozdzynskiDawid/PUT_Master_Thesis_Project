@@ -5,16 +5,12 @@ from helpers.get_llm import get_llm
 import random
 import networkx as nx
 
-def generate_graph_from_text():
+def generate_graph_from_text(text):
     llm = get_llm()
 
     llm_transformer = LLMGraphTransformer(
         llm=llm
     )
-
-    xml_file_path = "./data/testdata_with_lex.xml"
-    text = get_random_sentence(xml_file_path)
-    print(text)
 
     document = Document(page_content=text)
     try:

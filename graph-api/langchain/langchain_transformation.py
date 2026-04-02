@@ -25,7 +25,7 @@ def transform_to_graph_selected_clique(hypergraph_data):
         1. DO NOT create a full clique. Do not connect every entity to every other entity just because they share a hyperedge.
         2. Deduce the logical subject-object relationships based on the entities' names and the name of the relation.
         3. Exclude trivial or redundant connections.
-        4. Put the relation name in the 'relation' field of the link.
+        4. Deduce the relation name and put it in the 'relation' field of the link.
         """),
         ("user", """
         Here are the hyperedges to analyze:
