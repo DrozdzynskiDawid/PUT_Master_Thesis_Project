@@ -30,7 +30,7 @@ def hello():
 def get_random_text():
     return {"text": get_random_sentence(xml_file_path)}
 
-@app.get("/api/graph")
+@app.post("/api/graph")
 def get_graph(text: str = Body(..., embed=True)):
     return generate_graph_from_text(text)
 
@@ -45,7 +45,7 @@ def get_graph_png(G: NodeLinkGraphModel):
 def get_stats(data: NodeLinkGraphModel):
     return get_graph_stats(data)
 
-@app.get("/api/hypergraph")
+@app.post("/api/hypergraph")
 def get_hypergraph(text: str = Body(..., embed=True)):
     return generate_hypergraph_from_text(text)
 
