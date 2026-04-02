@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { DataService } from '../service/data.service';
 
 @Component({
   selector: 'graph-generator',
@@ -12,10 +13,12 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class GraphGenerator {
   private http = inject(HttpClient);
+  private dataService = inject(DataService);
   jsonData = signal<any | null>(null);
   isLoading = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
   imageUrl = signal<string | null>(null);
+  givenText = this.dataService.textFromDataset;
 
   fetchData() {
     this.isLoading.set(true);
@@ -28,7 +31,7 @@ export class GraphGenerator {
     
     const apiUrl = 'http://localhost:8000/api/graph';
 
-    this.http.get<any>(apiUrl).subscribe({
+    this.http.post(apiUrl, {text: this.givenText()}).subscribe({
       next: (response) => {
         this.jsonData.set(response);
         this.generateImageFromData(response);

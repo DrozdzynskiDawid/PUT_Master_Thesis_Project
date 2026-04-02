@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Pobieranie losowego tekstu ze zbioru danych</h2>
+  <button matButton="filled" (click)="getText()" [disabled]="isLoading()">
+   {{ isLoading() ? 'Pobieranie...' : 'Pobierz losowy tekst' }}
+  </button>
+
+  <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
+
+  <div *ngIf="text()" class="data-wrapper">
+    <h3>Pobrany tekst:</h3>
+    <p>{{ text() }}</p>
+  </div>
+</div>

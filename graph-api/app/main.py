@@ -26,7 +26,7 @@ xml_file_path = "./data/webnlg.xml"
 def hello():
     return {"name": "Graph API", "version": "1.0"}
 
-@app.get("/api/random_text")
+@app.get("/api/random-text")
 def get_random_text():
     return {"text": get_random_sentence(xml_file_path)}
 
