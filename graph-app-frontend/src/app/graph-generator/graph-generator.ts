@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from '../service/data.service';
+import { API_ENDPOINTS } from '../service/api-endpoints';
 
 @Component({
   selector: 'graph-generator',
@@ -12,50 +12,76 @@ import { DataService } from '../service/data.service';
   styleUrl: './graph-generator.scss',
 })
 export class GraphGenerator {
-  private http = inject(HttpClient);
   private dataService = inject(DataService);
-  jsonData = signal<any | null>(null);
   isLoading = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
-  imageUrl = signal<string | null>(null);
+  graphImageUrl = signal<string | null>(null);
+  hypergraphImageUrl = signal<string | null>(null);
   givenText = this.dataService.textFromDataset;
 
   fetchData() {
     this.isLoading.set(true);
     this.errorMessage.set(null);
-    this.jsonData.set(null);
-    if (this.imageUrl()) {
-      URL.revokeObjectURL(this.imageUrl()!);
-      this.imageUrl.set(null);
+    if (this.graphImageUrl()) {
+      URL.revokeObjectURL(this.graphImageUrl()!);
+      this.graphImageUrl.set(null);
     }
-    
-    const apiUrl = 'http://localhost:8000/api/graph';
+    if (this.hypergraphImageUrl()) {
+      URL.revokeObjectURL(this.hypergraphImageUrl()!);
+      this.hypergraphImageUrl.set(null);
+    }
 
-    this.http.post(apiUrl, {text: this.givenText()}).subscribe({
+    this.dataService.sendPostRequestJson<any>(`${API_ENDPOINTS.GRAPH}`, {text: this.givenText()}).subscribe({
       next: (response) => {
-        this.jsonData.set(response);
-        this.generateImageFromData(response);
+        this.generateGraphImageFromData(response);
+        console.log('JSON graph data:', response);
       },
       error: (err) => {
-        console.error('Błąd:', err);
-        this.errorMessage.set('Wystąpił błąd podczas pobierania.');
+        console.error('Error:', err);
+        this.errorMessage.set('Error occurred while fetching graph data.');
+        this.isLoading.set(false);
+      }
+    });
+
+    this.dataService.sendPostRequestJson<any>(`${API_ENDPOINTS.HYPERGRAPH}`, {text: this.givenText()}).subscribe({
+      next: (response) => {
+        this.generateHypergraphImageFromData(response);
+        console.log('JSON hypergraph data:', response);
+        this.dataService.hypergraphJsonData.set(response);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        this.errorMessage.set('Error occurred while fetching hypergraph data.');
         this.isLoading.set(false);
       }
     });
   }
 
-  private generateImageFromData(graphData: any) {
-    const imageApiUrl = 'http://localhost:8000/api/graph/visualization';
-
-    this.http.post(imageApiUrl, graphData, { responseType: 'blob' }).subscribe({
+  private generateGraphImageFromData(graphData: any) {
+    this.dataService.sendPostRequestBlob(`${API_ENDPOINTS.GRAPH_PNG}`, graphData).subscribe({
       next: (imageBlob: Blob) => {
         const url = URL.createObjectURL(imageBlob);
-        this.imageUrl.set(url);
+        this.graphImageUrl.set(url);
         this.isLoading.set(false); 
       },
       error: (err) => {
-        console.error('Błąd generowania obrazka:', err);
-        this.errorMessage.set('Wystąpił błąd podczas generowania obrazka na podstawie JSON-a.');
+        console.error('Error generating image:', err);
+        this.errorMessage.set('An error occurred while generating the graph image from JSON data.');
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  private generateHypergraphImageFromData(hypergraphData: any) {
+    this.dataService.sendPostRequestBlob(`${API_ENDPOINTS.HYPERGRAPH_PNG}`, hypergraphData).subscribe({
+      next: (imageBlob: Blob) => {
+        const url = URL.createObjectURL(imageBlob);
+        this.hypergraphImageUrl.set(url);
+        this.isLoading.set(false); 
+      },
+      error: (err) => {
+        console.error('Error generating image:', err);
+        this.errorMessage.set('An error occurred while generating the hypergraph image from JSON data.');
         this.isLoading.set(false);
       }
     });

@@ -1,16 +1,20 @@
 <div class="container">
-  <h2>Pobieranie Grafów i Hipergrafu z tekstu</h2>
+  <h2>Generowanie Grafu i Hipergrafu z tekstu</h2>
   
   <button matButton="filled" (click)="fetchData()" [disabled]="isLoading()">
-   {{ isLoading() ? 'Pobieranie...' : 'Pobierz dane strukturalne wygenerowane przez LLM' }}
+   {{ isLoading() ? 'Generowanie...' : 'Wygeneruj graf i hipergraf za pomocą modelu językowego' }}
   </button>
 
   <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
 
-  <div *ngIf="jsonData()" class="data-wrapper">
-    <h3>Wizualizacje pobrane z API pomyślnie!</h3>
-    <!-- <pre>{{ jsonData() | json }}</pre> -->
-    <h4>Graf wiedzy wyekstrachowany z tekstu przez LLM:</h4>
-    <img *ngIf="imageUrl()" [src]="imageUrl()" alt="Wygenerowany graf" style="max-width: 100%; height: auto; margin-top: 20px;">
+  <div *ngIf="graphImageUrl() && hypergraphImageUrl()" class="data-wrapper">
+    <div class="img-container">
+      <h4>Graf wiedzy wyekstrachowany z tekstu przez LLM:</h4>
+      <img [src]="graphImageUrl()" alt="Wygenerowany graf">
+    </div>
+    <div class="img-container">
+      <h4>Hipergraf wiedzy wyekstrachowany z tekstu przez LLM:</h4>
+      <img [src]="hypergraphImageUrl()" alt="Wygenerowany hipergraf">
+    </div>
   </div>
 </div>

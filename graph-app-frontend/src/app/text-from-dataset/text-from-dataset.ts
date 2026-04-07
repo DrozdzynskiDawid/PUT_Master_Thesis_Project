@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from '../service/data.service';
+import { API_ENDPOINTS } from '../service/api-endpoints';
 
 @Component({
   selector: 'text-from-dataset',
@@ -12,7 +12,6 @@ import { DataService } from '../service/data.service';
   styleUrl: './text-from-dataset.scss',
 })
 export class TextFromDataset {
-  private http = inject(HttpClient);
   private dataService = inject(DataService);
   text = signal<string | null>(null);
   isLoading = signal<boolean>(false);
@@ -22,18 +21,16 @@ export class TextFromDataset {
       this.isLoading.set(true);
       this.errorMessage.set(null);
       this.text.set(null);
-      
-      const apiUrl = 'http://localhost:8000/api/random-text';
 
-      this.http.get<{text: string}>(apiUrl).subscribe({
+      this.dataService.sendGetRequest<{text: string}>(`${API_ENDPOINTS.RANDOM_TEXT}`).subscribe({
         next: (response) => {
           this.text.set(response.text);
           this.dataService.textFromDataset.set(response.text);
           this.isLoading.set(false);
         },
         error: (err) => {
-          console.error('Błąd:', err);
-          this.errorMessage.set('Wystąpił błąd podczas pobierania.');
+          console.error('Error:', err);
+          this.errorMessage.set('An error occurred while fetching the text.');
           this.isLoading.set(false);
         }
       });
