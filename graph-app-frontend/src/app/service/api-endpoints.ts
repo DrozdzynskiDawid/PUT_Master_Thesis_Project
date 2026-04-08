@@ -9,4 +9,5 @@ export const API_ENDPOINTS = {
   HYPERGRAPH_PNG: `${API_URL}/hypergraph/visualization`,
   TRANSFORM_CLIQUE: `${API_URL}/hypergraph/transformation/clique`,
   TRANSFORM_LLM: `${API_URL}/hypergraph/transformation/selected_clique`,
+  STATS: `${API_URL}/graph/stats`
 } as const;

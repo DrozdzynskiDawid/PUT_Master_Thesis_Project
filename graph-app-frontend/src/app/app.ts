@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { GraphGenerator } from './graph-generator/graph-generator';
 import { TextFromDataset } from './text-from-dataset/text-from-dataset';
 import { TransformedGraphs } from './transformed-graphs/transformed-graphs';
+import { StatsTable } from './stats-table/stats-table';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GraphGenerator, TextFromDataset, TransformedGraphs],
+  imports: [RouterOutlet, GraphGenerator, TextFromDataset, TransformedGraphs, StatsTable],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

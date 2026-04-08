@@ -9,6 +9,9 @@ export class DataService {
   private http = inject(HttpClient);
   textFromDataset = signal<string>('');
   hypergraphJsonData = signal<any>(null);
+  graphLLMJsonData = signal<any>(null);
+  graphCliqueJsonData = signal<any>(null);
+  graphSelectedCliqueJsonData = signal<any>(null);
 
   sendPostRequestJson<T>(url: string, body: any): Observable<T> {
     return this.http.post<T>(url, body);

@@ -41,7 +41,7 @@ def get_graph_png(G: NodeLinkGraphModel):
         return Response(content="Brak danych", status_code=400)
     return Response(content=png, media_type="image/png")
 
-@app.get("/api/graph/stats")
+@app.post("/api/graph/stats")
 def get_stats(data: NodeLinkGraphModel):
     return get_graph_stats(data)
 

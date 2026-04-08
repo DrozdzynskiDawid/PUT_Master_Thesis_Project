@@ -34,6 +34,7 @@ export class TransformedGraphs {
     this.dataService.sendPostRequestJson<any>(`${API_ENDPOINTS.TRANSFORM_CLIQUE}`, this.dataService.hypergraphJsonData()).subscribe({
       next: (response) => {
         this.generateGraphImageFromData(response, false);
+        this.dataService.graphCliqueJsonData.set(response);
         console.log('JSON graph data:', response);
       },
       error: (err) => {
@@ -46,6 +47,7 @@ export class TransformedGraphs {
     this.dataService.sendPostRequestJson<any>(`${API_ENDPOINTS.TRANSFORM_LLM}`, this.dataService.hypergraphJsonData()).subscribe({
       next: (response) => {
         this.generateGraphImageFromData(response, true);
+        this.dataService.graphSelectedCliqueJsonData.set(response);
         console.log('JSON graph data:', response);
       },
       error: (err) => {

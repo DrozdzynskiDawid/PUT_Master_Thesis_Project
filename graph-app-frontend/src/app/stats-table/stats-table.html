@@ -1,0 +1,41 @@
+<div class="container">
+  <button matButton="filled" (click)="fetchData()">Pobierz metryki</button>
+
+  <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
+
+  <table *ngIf="dataSource.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Rodzaj Grafu </th>
+      <td mat-cell *matCellDef="let element"> <b>{{element.type}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nodes">
+      <th mat-header-cell *matHeaderCellDef> Węzły </th>
+      <td mat-cell *matCellDef="let element"> {{element.nodes}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edges">
+      <th mat-header-cell *matHeaderCellDef> Krawędzie </th>
+      <td mat-cell *matCellDef="let element"> {{element.edges}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="density">
+      <th mat-header-cell *matHeaderCellDef> Gęstość </th>
+      <td mat-cell *matCellDef="let element"> {{element.density}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="avgDegree">
+      <th mat-header-cell *matHeaderCellDef> Śr. stopień </th>
+      <td mat-cell *matCellDef="let element"> {{element.avgDegree}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="connected">
+      <th mat-header-cell *matHeaderCellDef> Spójny </th>
+      <td mat-cell *matCellDef="let element"> {{element.connected}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

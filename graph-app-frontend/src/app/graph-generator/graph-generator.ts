@@ -34,6 +34,7 @@ export class GraphGenerator {
     this.dataService.sendPostRequestJson<any>(`${API_ENDPOINTS.GRAPH}`, {text: this.givenText()}).subscribe({
       next: (response) => {
         this.generateGraphImageFromData(response);
+        this.dataService.graphLLMJsonData.set(response);
         console.log('JSON graph data:', response);
       },
       error: (err) => {
