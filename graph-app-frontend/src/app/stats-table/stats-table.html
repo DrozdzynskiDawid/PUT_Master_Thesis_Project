@@ -3,7 +3,7 @@
 
   <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
 
-  <table *ngIf="dataSource.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table *ngIf="dataSource().length > 0" mat-table [dataSource]="dataSource()" class="mat-elevation-z8">
     
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef> Rodzaj Grafu </th>

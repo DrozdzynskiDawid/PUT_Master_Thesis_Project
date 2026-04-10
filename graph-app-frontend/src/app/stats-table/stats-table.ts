@@ -18,7 +18,7 @@ export class StatsTable {
   displayedColumns: string[] = ['type', 'nodes', 'edges', 'density', 'avgDegree', 'connected'];
   
   errorMessage = signal<string | null>(null);
-  dataSource: any[] = [];
+  dataSource = signal<any[]>([]);
 
   fetchData() {
     this.errorMessage.set(null);
@@ -29,11 +29,11 @@ export class StatsTable {
       selected: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.STATS, this.dataService.graphSelectedCliqueJsonData())
     }).subscribe({
       next: (results) => {
-        this.dataSource = [
+        this.dataSource.set([
           this.mapToRow('Podstawowy', results.main),
           this.mapToRow('Clique', results.clique),
           this.mapToRow('Selected Clique', results.selected)
-        ];
+        ]);
       },
       error: (err) => {
         console.error('Error:', err);
