@@ -1,6 +1,5 @@
 <div class="container">
-  <button matButton="filled" (click)="fetchData()">Pobierz metryki</button>
-
+  <button matButton="filled" (click)="fetchData()" [disabled]="isLoading()">{{ isLoading() ? 'Pobieranie metryk...' : 'Pobierz metryki' }}</button>
   <p *ngIf="errorMessage()" style="color: red; margin-top: 15px;">{{ errorMessage() }}</p>
 
   <table *ngIf="dataSource().length > 0" mat-table [dataSource]="dataSource()" class="mat-elevation-z8">
@@ -38,4 +37,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <p *ngIf="graphSimilarity()">Podobieństwo kosinusowe grafu utworzonego bezpośrednio z tekstu oraz po transformacji z hipergrafu:<b> {{ graphSimilarity() }}</b></p>
 </div>

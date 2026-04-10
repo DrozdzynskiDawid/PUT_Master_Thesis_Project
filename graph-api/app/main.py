@@ -10,7 +10,7 @@ from helpers.transformation import transform_to_graph_clique
 from langchain.langchain_transformation import transform_to_graph_selected_clique
 from helpers.get_stats import get_graph_stats
 from helpers.xml_parser import get_random_sentence
-from helpers.get_embedding import get_graph_similarity
+from helpers.get_embedding_similarity import get_graph_similarity
 import xgi
 
 app = FastAPI()

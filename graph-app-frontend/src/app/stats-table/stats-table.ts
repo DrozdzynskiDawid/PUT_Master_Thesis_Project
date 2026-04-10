@@ -16,17 +16,23 @@ import { CommonModule } from '@angular/common';
 export class StatsTable {
   private dataService = inject(DataService);
   displayedColumns: string[] = ['type', 'nodes', 'edges', 'density', 'avgDegree', 'connected'];
-  
+  isLoading = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
   dataSource = signal<any[]>([]);
+  graphSimilarity = signal<string>('');
 
   fetchData() {
     this.errorMessage.set(null);
+    this.isLoading.set(true);
 
     forkJoin({
       main: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.STATS, this.dataService.graphLLMJsonData()),
       clique: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.STATS, this.dataService.graphCliqueJsonData()),
-      selected: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.STATS, this.dataService.graphSelectedCliqueJsonData())
+      selected: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.STATS, this.dataService.graphSelectedCliqueJsonData()),
+      similarity: this.dataService.sendPostRequestJson<any>(API_ENDPOINTS.SIMILARITY, {
+        graph1: this.dataService.graphLLMJsonData(),
+        graph2: this.dataService.graphSelectedCliqueJsonData()
+      })
     }).subscribe({
       next: (results) => {
         this.dataSource.set([
@@ -34,10 +40,13 @@ export class StatsTable {
           this.mapToRow('Clique', results.clique),
           this.mapToRow('Selected Clique', results.selected)
         ]);
+        this.graphSimilarity.set((results.similarity.cosine_similarity));
+        this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Error:', err);
         this.errorMessage.set('Error occurred while fetching statistics data.');
+        this.isLoading.set(false);
       }
     });
   }
