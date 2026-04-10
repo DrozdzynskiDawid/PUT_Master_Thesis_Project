@@ -10,6 +10,7 @@ from helpers.transformation import transform_to_graph_clique
 from langchain.langchain_transformation import transform_to_graph_selected_clique
 from helpers.get_stats import get_graph_stats
 from helpers.xml_parser import get_random_sentence
+from helpers.get_embedding import get_graph_similarity
 import xgi
 
 app = FastAPI()
@@ -73,3 +74,7 @@ def transform_hypergraph_to_graph(data: HypergraphRequest):
 @app.post("/api/hypergraph/transformation/selected_clique")
 def transform_hypergraph_to_graph_llm(data: HypergraphRequest):
     return transform_to_graph_selected_clique(data)
+
+@app.post("/api/graph/comparison")
+def compare_graphs(graph1: NodeLinkGraphModel, graph2: NodeLinkGraphModel):
+    return get_graph_similarity(graph1.model_dump(), graph2.model_dump())
