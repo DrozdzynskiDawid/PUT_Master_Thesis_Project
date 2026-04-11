@@ -20,6 +20,7 @@ export class StatsTable {
   errorMessage = signal<string | null>(null);
   dataSource = signal<any[]>([]);
   graphSimilarity = signal<string>('');
+  graphSimilarityPercentage = signal<string>('');
 
   fetchData() {
     this.errorMessage.set(null);
@@ -40,7 +41,8 @@ export class StatsTable {
           this.mapToRow('Clique', results.clique),
           this.mapToRow('Selected Clique', results.selected)
         ]);
-        this.graphSimilarity.set((results.similarity.cosine_similarity));
+        this.graphSimilarity.set(results.similarity.cosine_similarity.toFixed(4));
+        this.graphSimilarityPercentage.set(results.similarity.percentage_similarity.toFixed(2) + '%');
         this.isLoading.set(false);
       },
       error: (err) => {
