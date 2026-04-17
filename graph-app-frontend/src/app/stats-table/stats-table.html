@@ -38,6 +38,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <p *ngIf="graphSimilarity()">Podobieństwo kosinusowe grafu utworzonego bezpośrednio z tekstu oraz po transformacji z hipergrafu:<b> {{ graphSimilarity() }}</b></p>
+  <p *ngIf="graphSimilarity()">Odległość kosinusowa grafu utworzonego bezpośrednio z tekstu oraz po transformacji z hipergrafu:<b> {{ graphSimilarity() }}</b></p>
   <p *ngIf="graphSimilarityPercentage()">Podobieństwo procentowe grafu utworzonego bezpośrednio z tekstu oraz po transformacji z hipergrafu:<b> {{ graphSimilarityPercentage() }}</b></p>
 </div>

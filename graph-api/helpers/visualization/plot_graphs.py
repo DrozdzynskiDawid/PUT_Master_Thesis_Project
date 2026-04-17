@@ -28,7 +28,7 @@ def visualize_knowledge_graph(data: NodeLinkGraphModel):
             label=cls
         )
 
-    nx.draw_networkx_labels(G, pos, font_size=9, font_weight="bold")
+    nx.draw_networkx_labels(G, pos, font_size=10, font_weight="bold")
     nx.draw_networkx_edges(
         G, pos, 
         edge_color='gray', 
@@ -39,7 +39,7 @@ def visualize_knowledge_graph(data: NodeLinkGraphModel):
         connectionstyle='arc3, rad=0.1'
     )
     edge_labels = nx.get_edge_attributes(G, 'relation')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8, font_color='darkred')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=10, font_color='black')
     leg = plt.legend(
         scatterpoints=1, 
         labelspacing=1.2, 
