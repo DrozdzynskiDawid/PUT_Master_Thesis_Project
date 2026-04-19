@@ -1,6 +1,5 @@
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_core.documents import Document
-from helpers.xml_parser import get_random_sentence
 from helpers.get_llm import get_llm
 import random
 import networkx as nx

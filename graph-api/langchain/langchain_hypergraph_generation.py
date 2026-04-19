@@ -1,5 +1,4 @@
 from langchain_core.prompts import ChatPromptTemplate
-from helpers.xml_parser import get_random_sentence
 from langchain.hypergraph_model import HyperGraphData
 from helpers.get_llm import get_llm
 

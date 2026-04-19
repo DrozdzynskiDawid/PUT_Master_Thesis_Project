@@ -9,7 +9,7 @@ from app.graph_request_model import NodeLinkGraphModel
 from helpers.transformation import transform_to_graph_clique
 from langchain.langchain_transformation import transform_to_graph_selected_clique
 from helpers.get_stats import get_graph_stats
-from helpers.xml_parser import get_random_sentence
+from helpers.dataset_parser import get_random_sentence
 from helpers.get_embedding_similarity import get_graph_similarity
 import xgi
 
@@ -21,15 +21,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-xml_file_path = "./data/webnlg.xml"
 
 @app.get("/api")
 def hello():
     return {"name": "Graph API", "version": "1.0"}
 
 @app.get("/api/random-text")
-def get_random_text():
-    return {"text": get_random_sentence(xml_file_path)}
+def get_random_text(file_path: str):
+    return {"text": get_random_sentence(file_path)}
 
 @app.post("/api/graph")
 def get_graph(text: str = Body(..., embed=True)):

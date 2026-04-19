@@ -1,5 +1,14 @@
 <div class="container">
   <h2>Pobieranie losowego tekstu ze zbioru danych</h2>
+  <mat-form-field class="dataset-select">
+    <mat-label>Wybierz zbiór danych</mat-label>
+    <mat-select [value]="selectedDataset()" (selectionChange)="selectedDataset.set($event.value)">
+      <mat-option [value]="DATASETS_PATH.SCIERC">SciERC</mat-option>
+      <mat-option [value]="DATASETS_PATH.WIKI_NRE">WIKI-NRE</mat-option>
+      <mat-option [value]="DATASETS_PATH.WEBNLG">WebNLG</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <button matButton="filled" (click)="getText()" [disabled]="isLoading()">
    {{ isLoading() ? 'Pobieranie...' : 'Pobierz losowy tekst' }}
   </button>
