@@ -24,11 +24,13 @@ def extract_texts_from_json(json_file_path):
     for token_list in data['train']['text']:
         sentence = " ".join(token_list)
         sentences.append(sentence)
+    print(f"Znaleziono {len(sentences)} zdań w pliku JSON.\n")
     return sentences
 
 def extract_texts_from_parquet(parquet_file_path):
     df = pd.read_parquet(parquet_file_path)
     sentences = df['text'].tolist()
+    print(f"Znaleziono {len(sentences)} zdań w pliku Parquet.\n")
     return sentences
 
 
