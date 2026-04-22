@@ -6,4 +6,6 @@ Master's Thesis Project
 
 `docker compose up --build`
 
-2. Open `http://localhost:8000/docs` in your browser to open Swagger API Documentation
+2. Open `http://localhost:8000/docs` in your browser to open Swagger API Documentation.
+
+3. Open `http://localhost:4200/` in your browser to open frontend app.

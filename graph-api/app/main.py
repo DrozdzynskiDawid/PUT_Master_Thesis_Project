@@ -13,7 +13,11 @@ from helpers.dataset_parser import get_random_sentence
 from helpers.get_embedding_similarity import get_graph_similarity
 import xgi
 
-app = FastAPI()
+app = FastAPI(
+    title="Graph API",
+    description="API projektu dla pracy magisterskiej do generowania i analizy grafów wiedzy z tekstu",
+    version="1.0"
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
