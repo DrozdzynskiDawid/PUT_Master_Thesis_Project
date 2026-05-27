@@ -18,8 +18,20 @@ def visualize_knowledge_hypergraph(json_data):
         if valid_nodes:
             H.add_edge(valid_nodes, relation=edge.relation_name)
             
-    fig = plt.figure(figsize=(10, 8), dpi=100)
+    fig, ax = plt.subplots(figsize=(10, 8), dpi=100)
     pos = xgi.barycenter_spring_layout(H)
+
+    node_types = {node_id: H.nodes[node_id]['type'] for node_id in H.nodes}
+    unique_classes = sorted(list(set(node_types.values())))
+    color_palette = plt.colormaps.get_cmap('Set3')
+    
+    div = max(1, len(unique_classes) - 1)
+    class_to_color = {
+        cls: color_palette(i / div if len(unique_classes) > 1 else 0.5) 
+        for i, cls in enumerate(unique_classes)
+    }
+
+    node_colors = [class_to_color[node_types[node]] for node in H.nodes]
 
     xgi.draw(
         H, 
@@ -27,7 +39,7 @@ def visualize_knowledge_hypergraph(json_data):
         node_labels=True,
         node_size=70,
         node_lw=1.5,
-        node_fc="lightblue",
+        node_fc=node_colors,
         edge_fc="gray",
         edge_lw=1.5
     )
@@ -49,6 +61,20 @@ def visualize_knowledge_hypergraph(json_data):
                     ha='center', va='center',
                     bbox=dict(facecolor='white', alpha=0.85, edgecolor='lightgray', boxstyle='round,pad=0.3')
                 )
+    for cls in unique_classes:
+        ax.scatter([], [], c=[class_to_color[cls]], label=cls, edgecolors='black')
+
+    leg = plt.legend(
+        scatterpoints=1, 
+        labelspacing=1.2, 
+        title="Klasy węzłów", 
+        loc='upper left', 
+        bbox_to_anchor=(1, 1),
+        fontsize=9
+    )
+
+    for handle in leg.legend_handles:
+        handle.set_sizes([100.0])
 
     plt.title("Wizualizacja Hipergrafu Wiedzy", fontsize=16, fontweight='bold', pad=15)
     plt.axis('off')
